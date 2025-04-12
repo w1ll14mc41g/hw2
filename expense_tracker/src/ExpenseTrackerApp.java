@@ -1,3 +1,5 @@
+import java.util.List;
+
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -6,6 +8,8 @@ import model.ExpenseTrackerModel;
 import view.ExpenseTrackerView;
 import model.Transaction;
 import controller.InputValidation;
+import view.AmountFilter;
+import view.CategoryFilter;
 
 public class ExpenseTrackerApp {
 
@@ -21,19 +25,29 @@ public class ExpenseTrackerApp {
 
     // Handle add transaction button clicks
     view.getAddTransactionBtn().addActionListener(e -> {
-      // Get transaction data from view
-      double amount = view.getAmountField();
-      String category = view.getCategoryField();
+        double amount = view.getAmountField(); 
+        String category = view.getCategoryField().toLowerCase();
+        
+        boolean added = controller.addTransaction(amount, category);
       
-      // Call controller to add transaction
-      boolean added = controller.addTransaction(amount, category);
-      
-      if (!added) {
+        if (!added) {
+          JOptionPane.showMessageDialog(view, "Invalid amount or category entered");
+          view.toFront();
+        }
+    });
+
+    // Handle filter transaction button clicks
+    view.getFilterBtn().addActionListener(e -> {
+      double filterAmount = view.getFilterAmount(); 
+      String filterCategory = view.getFilterCategory().toLowerCase();
+    
+      boolean filtered = controller.filterTransaction(filterAmount, filterCategory);
+
+      if (!filtered) {
         JOptionPane.showMessageDialog(view, "Invalid amount or category entered");
         view.toFront();
       }
     });
-
   }
 
 }

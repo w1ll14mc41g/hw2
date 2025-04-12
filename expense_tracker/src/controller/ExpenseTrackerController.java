@@ -4,7 +4,8 @@ import view.ExpenseTrackerView;
 
 import java.util.List;
 
-
+import view.AmountFilter;
+import view.CategoryFilter;
 
 import model.ExpenseTrackerModel;
 import model.Transaction;
@@ -30,6 +31,16 @@ public class ExpenseTrackerController {
 
   }
 
+  public void refreshFiltered() {
+
+    // Get transactions from model
+    List<Transaction> transactions = model.getTransactions();
+
+    // Pass to view
+    view.refreshFilteredTable(transactions);
+
+  }
+
   public boolean addTransaction(double amount, String category) {
     if (!InputValidation.isValidAmount(amount)) {
       return false;
@@ -44,6 +55,22 @@ public class ExpenseTrackerController {
     refresh();
     return true;
   }
-  
+
+
   // Other controller methods
+
+  public boolean filterTransaction(double amount, String category) {
+    if (!InputValidation.isValidAmount(amount) && !InputValidation.isValidCategory(category)) {
+      return false;
+    }
+
+    AmountFilter amountFilter = new AmountFilter(amount);
+    amountFilter.filter(model.getTransactions());
+
+    CategoryFilter categoryFilter = new CategoryFilter(category);
+    categoryFilter.filter(model.getTransactions());
+    
+    refreshFiltered();
+    return true;
+  }
 }
