@@ -1,0 +1,23 @@
+Undo functionality will allow a user to remove specific transactions.
+Removing a transaction should be able to be done by simply clicking
+on the respective row. Once a row is clicked on, the transaction will
+be removed from the transaction list, and total cost will be updated,
+alongside the view of all the transactions being refreshed.
+
+This will include necessary changes to:
+
+Model:
+- None
+
+View:
+- Modify the ExpenseTrackerView class so that each transaction row can
+be clicked. Then, add an event handler method to the ExpenseTrackerApp
+so a method from ExpenseTrackerController is called.
+
+Controller:
+- Add a method so that once you click on a transaction, it will call the 
+removeTransaction method from the ExpenseTrackerModel class. Then, it will
+call the refreshTable function within the ExpenseTrackerView class, which
+will also update the total cost.
+
+
